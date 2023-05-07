@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">助老互帮</string>
+    <string name="navigation_item_home">首页</string>
+    <string name="navigation_item_category">分类</string>
+    <string name="navigation_item_customer">个人</string>
+</resources>
+
