@@ -3,5 +3,8 @@
     <string name="navigation_item_home">首页</string>
     <string name="navigation_item_category">分类</string>
     <string name="navigation_item_customer">个人</string>
+
+    <string name="login_welcome">Welcome Login</string>
+    <string name="login_label">We have missed you, Let\'s start by Login In!</string>
 </resources>
 

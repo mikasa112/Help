@@ -1,17 +1,14 @@
 package com.example.help
 
-import android.app.Activity
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -20,22 +17,23 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
+import com.example.help.ui.login.LoginView
+import com.example.help.ui.theme.ColorPallet
 import com.example.help.ui.theme.HelpMaterial3Theme
 import com.example.help.ui.theme.graySurface
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
@@ -47,20 +45,22 @@ class MainActivity : ComponentActivity() {
         //沉浸式状态栏
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val systemUiController = rememberSystemUiController()
-            val useDarkIcons = !isSystemInDarkTheme()
-            DisposableEffect(systemUiController, useDarkIcons) {
-                // Update all of the system bar colors to be transparent, and use
-                // dark icons if we're in light theme
-                systemUiController.setSystemBarsColor(
-                    color = Color.Transparent,
-                    darkIcons = useDarkIcons
-                )
-                // setStatusBarColor() and setNavigationBarColor() also exist
-                onDispose {}
-            }
-            HelpMaterial3Theme {
-                AppContent()
+            rememberSystemUiController().setStatusBarColor(
+                Color.Transparent,
+                darkIcons = MaterialTheme.colors.isLight
+            )
+            HelpMaterial3Theme(
+                colorPallet = ColorPallet.BLUE
+            ) {
+                Column {
+                    Spacer(
+                        modifier = Modifier
+                            .windowInsetsTopHeight(WindowInsets.statusBars)
+                            .fillMaxWidth()
+                    )
+//                    AppContent()
+                    LoginView()
+                }
             }
         }
     }
@@ -154,10 +154,7 @@ fun AppContentBody(
 ) {
     Crossfade(targetState = navTypeState, modifier = modifier) { navType ->
         when (navType) {
-            BottomNavType.HOME -> @Composable {
-
-            }
-
+            BottomNavType.HOME -> Timber.d("CATEGORY")
             BottomNavType.CATEGORY -> Timber.d("CATEGORY")
             BottomNavType.CUSTOMER -> Timber.d("CUSTOMER")
         }
